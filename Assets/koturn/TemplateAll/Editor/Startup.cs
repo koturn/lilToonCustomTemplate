@@ -1,4 +1,5 @@
 using System.IO;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 using lilToon;
@@ -11,6 +12,11 @@ namespace lilToon
     /// </summary>
     internal static class Startup
     {
+        /// <summary>
+        /// Buffer size of streams.
+        /// </summary>
+        private const int BufferSize = 8192;
+
         /// <summary>
         /// A method called at Unity startup.
         /// </summary>
@@ -39,35 +45,92 @@ namespace lilToon
                 return;
             }
 
-            var line = "#define LIL_CURRENT_VERSION_VALUE " + lilConstants.currentVersionValue;
-            var dstFilePath = Path.Combine(dstDirPath, "lil_current_version_value.hlsl");
-            if (File.Exists(dstFilePath) && ReadFirstLine(dstFilePath) == line)
+            using (var ms = new MemoryStream(BufferSize))
             {
-                return;
-            }
+                WriteVersionFileBytes(ms);
+                var buffer = ms.GetBuffer();
+                var length = (int)ms.Length;
+                var dstFilePath = Path.Combine(dstDirPath, "lil_current_version_value.hlsl");
+                if (CompareFileBytes(dstFilePath, buffer, 0, length))
+                {
+                    return;
+                }
+                using (var fs = new FileStream(dstFilePath, FileMode.Create, FileAccess.Write, FileShare.Read))
+                {
+                    fs.Write(buffer, 0, length);
+                }
 
-            using (var fs = new FileStream(dstFilePath, FileMode.Create, FileAccess.Write, FileShare.Read))
-            using (var sw = new StreamWriter(fs))
-            {
-                sw.Write(line);
-                sw.Write('\n');
+                Debug.Log($"Update {dstFilePath}");
             }
-
-            Debug.Log($"Update {dstFilePath}");
         }
 
         /// <summary>
-        /// Read first line of the specified file.
+        /// Write version file content to <see cref="s"/>.
         /// </summary>
-        /// <param name="filePath">File to read.</param>
-        /// <returns>First line of <paramref name="filePath"/>.</returns>
-        private static string ReadFirstLine(string filePath)
+        /// <param name="s">Destination stream.</param>
+        private static void WriteVersionFileBytes(Stream s)
         {
-            using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-            using (var sr = new StreamReader(fs))
+            using (var writer = new StreamWriter(s, Encoding.ASCII, BufferSize, true))
             {
-                return sr.ReadLine();
+                writer.Write("#define LIL_CURRENT_VERSION_VALUE {0}\n", lilConstants.currentVersionValue);
             }
+        }
+
+        /// <summary>
+        /// Compare file content with specified byte sequence.
+        /// </summary>
+        /// <param name="filePath">Target file path.</param>
+        /// <param name="contentData">File content data to compare.</param>
+        /// <param name="offset">Offset of <paramref name="contentData"/>,</param>
+        /// <param name="length">Length of <paramref name="contentData"/>.</param>
+        /// <returns>True if file content is same to <see cref="contentData"/>, otherwise false.</returns>
+        private static bool CompareFileBytes(string filePath, byte[] contentData, int offset, int length)
+        {
+            if (!File.Exists(filePath))
+            {
+                return false;
+            }
+            if (new FileInfo(filePath).Length != length)
+            {
+                return false;
+            }
+
+            using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                var buffer = new byte[Math.Min(BufferSize, length)];
+                int nRead;
+                while ((nRead = fs.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    if (!CompareMemory(buffer, 0, contentData, offset, nRead))
+                    {
+                        return false;
+                    }
+                    offset += nRead;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Compare two byte data.
+        /// </summary>
+        /// <param name="data1">First byte data array.</param>
+        /// <param name="offset1">Offset of first byte data array.</param>
+        /// <param name="data2">Second byte data array.</param>
+        /// <param name="offset2">Offset of second byte data array.</param>
+        /// <param name="length">Data length of <paramref name="data1"/> and <paramref name="data2"/>.</param>
+        /// <returns>True if two byte data is same, otherwise false.</returns>
+        private static bool CompareMemory(byte[] data1, int offset1, byte[] data2, int offset2, int length)
+        {
+            for (int i = 0; i < length; i++)
+            {
+                if (data1[i] != data2[i])
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         /// <summary>
