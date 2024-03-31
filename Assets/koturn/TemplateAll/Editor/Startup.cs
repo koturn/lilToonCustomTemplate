@@ -17,7 +17,7 @@ namespace lilToon
         /// <summary>
         /// Buffer size of streams.
         /// </summary>
-        private const int BufferSize = 8192;
+        private const int DefaultBufferSize = 1024;
 
         /// <summary>
         /// A method called at Unity startup.
@@ -45,23 +45,34 @@ namespace lilToon
                 Debug.LogWarningFormat("Directory not found: {0} ({1})", dstDirPath, AssetGuid.ShaderDir);
                 return;
             }
+            UpdateVersionDefFile(Path.Combine(dstDirPath, "lil_current_version.hlsl"));
+        }
 
-            using (var ms = new MemoryStream(BufferSize))
+        /// <summary>
+        /// Update definition file of version value of lilToon, lil_current_version_value.hlsl.
+        /// </summary>
+        /// <param name="filePath">Destination file path.</param>
+        /// <param name="bufferSize">Buffer size for temporary buffer and <see cref="FileStream"/>,
+        /// and initial capacity of <see cref="MemoryStream"/>.</param>
+        public static void UpdateVersionDefFile(string filePath, int bufferSize = DefaultBufferSize)
+        {
+            using (var ms = new MemoryStream(bufferSize))
             {
                 WriteVersionFileBytes(ms);
                 var buffer = ms.GetBuffer();
                 var length = (int)ms.Length;
-                var dstFilePath = Path.Combine(dstDirPath, "lil_current_version.hlsl");
-                if (CompareFileBytes(dstFilePath, buffer, 0, length))
+
+                if (CompareFileBytes(filePath, buffer, 0, length, bufferSize))
                 {
                     return;
                 }
-                using (var fs = new FileStream(dstFilePath, FileMode.Create, FileAccess.Write, FileShare.Read))
+
+                using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.Read, bufferSize))
                 {
                     fs.Write(buffer, 0, length);
                 }
 
-                Debug.Log($"Update {dstFilePath}");
+                Debug.LogFormat("Update {0}", filePath);
             }
         }
 
@@ -69,9 +80,10 @@ namespace lilToon
         /// Write version file content to <see cref="s"/>.
         /// </summary>
         /// <param name="s">Destination stream.</param>
-        private static void WriteVersionFileBytes(Stream s)
+        /// <param name="bufferSize">Buffer size for <see cref="StreamWriter"/>.</param>
+        private static void WriteVersionFileBytes(Stream s, int bufferSize = DefaultBufferSize)
         {
-            using (var writer = new StreamWriter(s, Encoding.ASCII, BufferSize, true))
+            using (var writer = new StreamWriter(s, Encoding.ASCII, bufferSize, true))
             {
                 writer.Write("#ifndef LIL_CURRENT_VERSION_INCLUDED\n");
                 writer.Write("#define LIL_CURRENT_VERSION_INCLUDED\n");
@@ -105,8 +117,9 @@ namespace lilToon
         /// <param name="contentData">File content data to compare.</param>
         /// <param name="offset">Offset of <paramref name="contentData"/>,</param>
         /// <param name="count">Length of <paramref name="contentData"/>.</param>
+        /// <param name="bufferSize">Buffer size for temporary buffer and <see cref="FileStream"/>.</param>
         /// <returns>True if file content is same to <see cref="contentData"/>, otherwise false.</returns>
-        private static bool CompareFileBytes(string filePath, byte[] contentData, int offset, int count)
+        private static bool CompareFileBytes(string filePath, byte[] contentData, int offset, int count, int bufferSize = DefaultBufferSize)
         {
             if (!File.Exists(filePath))
             {
@@ -117,9 +130,10 @@ namespace lilToon
                 return false;
             }
 
-            using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            var minBufferSize = Math.Min(count, bufferSize);
+            using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, minBufferSize))
             {
-                var buffer = new byte[Math.Min(BufferSize, count)];
+                var buffer = new byte[minBufferSize];
                 int nRead;
                 while ((nRead = fs.Read(buffer, 0, buffer.Length)) > 0)
                 {
