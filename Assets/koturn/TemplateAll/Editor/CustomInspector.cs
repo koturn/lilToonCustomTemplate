@@ -262,7 +262,7 @@ namespace lilToon
             var result = NativeMethods.Open("Library/ShaderCache.db", out var dbHandle);
             if (result != 0)
             {
-                Debug.LogError($"Failed to open Library/ShaderCache.db [{result}]");
+                Debug.LogErrorFormat("Failed to open Library/ShaderCache.db [{0}]", result);
                 return;
             }
 
@@ -271,7 +271,7 @@ namespace lilToon
                 result = NativeMethods.Execute(dbHandle, "DELETE FROM shadererrors", IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
                 if (result != 0)
                 {
-                    Debug.LogError($"SQL failed [{result}]");
+                    Debug.LogErrorFormat("SQL failed [{0}]", result);
                     return;
                 }
             }
@@ -280,7 +280,7 @@ namespace lilToon
                 result = NativeMethods.Close(dbHandle);
                 if (result != 0)
                 {
-                    Debug.LogError($"Failed to close database [{result}]");
+                    Debug.LogErrorFormat("Failed to close database [{0}]", result);
                 }
             }
 
