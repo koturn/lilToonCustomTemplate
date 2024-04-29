@@ -1,11 +1,9 @@
 using System;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
-using lilToon;
 
 
 namespace lilToon
