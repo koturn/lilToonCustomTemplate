@@ -154,14 +154,8 @@ namespace lilToon
         private static void ConvertMaterialToCustomShaderMenu()
 #pragma warning restore IDE0052 // Remove unread private members
         {
-            foreach (var obj in Selection.objects)
+            foreach (var material in Selection.GetFiltered<Material>(SelectionMode.Assets))
             {
-                var material = obj as Material;
-                if (material == null)
-                {
-                    continue;
-                }
-
                 var shader = GetCorrespondingCustomShader(material.shader);
                 if (shader == null)
                 {
@@ -187,14 +181,8 @@ namespace lilToon
 #pragma warning restore IDE0051 // Remove unused private members
         {
             var count = 0;
-            foreach (var obj in Selection.objects)
+            foreach (var material in Selection.GetFiltered<Material>(SelectionMode.Assets))
             {
-                var material = obj as Material;
-                if (material == null)
-                {
-                    continue;
-                }
-
                 if (GetCorrespondingCustomShaderName(material.shader.name) != null)
                 {
                     count++;
@@ -211,14 +199,8 @@ namespace lilToon
         private static void ConvertMaterialToOriginalShaderMenu()
 #pragma warning restore IDE0051 // Remove unused private members
         {
-            foreach (var obj in Selection.objects)
+            foreach (var material in Selection.GetFiltered<Material>(SelectionMode.Assets))
             {
-                var material = obj as Material;
-                if (material == null)
-                {
-                    continue;
-                }
-
                 var shader = GetCorrespondingOriginalShader(material.shader);
                 if (shader == null)
                 {
@@ -244,14 +226,8 @@ namespace lilToon
 #pragma warning restore IDE0051 // Remove unused private members
         {
             var count = 0;
-            foreach (var obj in Selection.objects)
+            foreach (var material in Selection.GetFiltered<Material>(SelectionMode.Assets))
             {
-                var material = obj as Material;
-                if (material == null)
-                {
-                    continue;
-                }
-
                 if (GetCorrespondingOriginalShaderName(material.shader.name) != null)
                 {
                     count++;
