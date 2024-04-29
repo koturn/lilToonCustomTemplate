@@ -150,7 +150,9 @@ namespace lilToon
         /// Try to replace the shader of the selected material to custom lilToon shader.
         /// </summary>
         [MenuItem("Assets/" + ShaderName + "/Convert material to custom shader", false, 1100)]
+#pragma warning disable IDE0052 // Remove unread private members
         private static void ConvertMaterialToCustomShaderMenu()
+#pragma warning restore IDE0052 // Remove unread private members
         {
             foreach (var obj in Selection.objects)
             {
@@ -180,7 +182,9 @@ namespace lilToon
         /// </summary>
         /// <returns>True if <see cref="ConvertMaterialToCustomShaderMenu"/> works, otherwise false.</returns>
         [MenuItem("Assets/" + ShaderName + "/Convert material to custom shader", true)]
+#pragma warning disable IDE0051 // Remove unused private members
         private static bool ValidateConvertMaterialToCustomShaderMenu()
+#pragma warning restore IDE0051 // Remove unused private members
         {
             var count = 0;
             foreach (var obj in Selection.objects)
@@ -203,7 +207,9 @@ namespace lilToon
         /// Try to replace the shader of the material to original lilToon shader.
         /// </summary>
         [MenuItem("Assets/" + ShaderName + "/Convert material to original shader", false, 1101)]
+#pragma warning disable IDE0051 // Remove unused private members
         private static void ConvertMaterialToOriginalShaderMenu()
+#pragma warning restore IDE0051 // Remove unused private members
         {
             foreach (var obj in Selection.objects)
             {
@@ -233,7 +239,9 @@ namespace lilToon
         /// </summary>
         /// <returns>True if <see cref="ValidateConvertMaterialToOriginalShaderMenu"/> works, otherwise false.</returns>
         [MenuItem("Assets/" + ShaderName + "/Convert material to original shader", true)]
+#pragma warning disable IDE0051 // Remove unused private members
         private static bool ValidateConvertMaterialToOriginalShader()
+#pragma warning restore IDE0051 // Remove unused private members
         {
             var count = 0;
             foreach (var obj in Selection.objects)
@@ -305,7 +313,9 @@ namespace lilToon
         /// </summary>
         /// <returns>True if <see cref="RefreshShaderCacheMenu"/> works, otherwise false.</returns>
         [MenuItem("Assets/" + ShaderName + "/Refresh shader cache", true)]
+#pragma warning disable IDE0051 // Remove unused private members
         private static bool ValidateRefreshShaderCacheMenu()
+#pragma warning restore IDE0051 // Remove unused private members
         {
             try
             {
