@@ -488,7 +488,7 @@ namespace lilToon
             /// <remarks>
             /// <seealso href="https://www.sqlite.org/c3ref/open.html"/>
             /// </remarks>
-            [DllImport(LibraryName, EntryPoint = "sqlite3_open", CallingConvention = CallConv)]
+            [DllImport(LibraryName, EntryPoint = "sqlite3_open16", CallingConvention = CallConv, CharSet = CharSet.Unicode)]
             public static extern int Open(string filePath, out IntPtr pDb);
 
             /// <summary>
