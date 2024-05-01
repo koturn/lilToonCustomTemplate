@@ -159,7 +159,7 @@ namespace lilToon
                 var shader = GetCorrespondingCustomShader(material.shader);
                 if (shader == null)
                 {
-                    Debug.LogWarningFormat($"Ignore {0}. \"{1}\" is not original lilToon shader.", AssetDatabase.GetAssetPath(material), material.shader.name);
+                    Debug.LogWarningFormat("Ignore {0}. \"{1}\" is not original lilToon shader.", AssetDatabase.GetAssetPath(material), material.shader.name);
                     continue;
                 }
 
@@ -203,7 +203,7 @@ namespace lilToon
                 var shader = GetCorrespondingOriginalShader(material.shader);
                 if (shader == null)
                 {
-                    Debug.LogWarningFormat($"Ignore {0}. \"{1}\" is not custom lilToon shader, \"" + ShaderName + "\".", AssetDatabase.GetAssetPath(material), material.shader.name);
+                    Debug.LogWarningFormat("Ignore {0}. \"{1}\" is not custom lilToon shader, \"" + ShaderName + "\".", AssetDatabase.GetAssetPath(material), material.shader.name);
                     continue;
                 }
 
