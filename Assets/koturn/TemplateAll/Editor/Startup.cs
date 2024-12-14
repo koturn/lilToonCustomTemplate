@@ -34,7 +34,7 @@ namespace lilToon
         private static void UpdateVersionDefFile()
         {
             var dstDirPath = AssetDatabase.GUIDToAssetPath(AssetGuid.ShaderDir);
-            if (dstDirPath == "")
+            if (dstDirPath.Length == 0)
             {
                 Debug.LogWarning("Cannot find file or directory corresponding to GUID: " + AssetGuid.ShaderDir);
                 return;

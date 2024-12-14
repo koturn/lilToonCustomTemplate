@@ -300,7 +300,7 @@ namespace lilToon
             }
 
             var shaderDirPath = AssetDatabase.GUIDToAssetPath(AssetGuid.ShaderDir);
-            if (shaderDirPath == "")
+            if (shaderDirPath.Length == 0)
             {
                 Debug.LogWarning("Cannot find file or directory corresponding to GUID: " + AssetGuid.ShaderDir);
                 return;
@@ -314,7 +314,7 @@ namespace lilToon
             AssetDatabase.ImportAsset(shaderDirPath, ImportAssetOptions.ImportRecursive);
 
             var lilToonShaderDir = AssetDatabase.GUIDToAssetPath(AssetGuid.LilToonShaderDir);
-            if (lilToonShaderDir == "")
+            if (lilToonShaderDir.Length == 0)
             {
                 Debug.LogWarningFormat("Shader directory of lilToon not found: {0}", AssetGuid.LilToonShaderDir);
                 return;
