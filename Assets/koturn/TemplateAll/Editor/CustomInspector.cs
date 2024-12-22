@@ -12,18 +12,18 @@ namespace lilToon
     /// </summary>
     public sealed class TemplateAllInspector : lilToonInspector
     {
-        // Custom properties
-        //private MaterialProperty customVariable;
+        /// <summary>
+        /// Name of this custom shader.
+        /// </summary>
+        public const string ShaderName = "TemplateAll";
 
         /// <summary>
         /// A flag whether to fold custom properties or not.
         /// </summary>
         private static bool isShowCustomProperties;
 
-        /// <summary>
-        /// Name of this custom shader.
-        /// </summary>
-        private const string ShaderName = "TemplateAll";
+        // Custom properties
+        //private MaterialProperty customVariable;
 
         /// <summary>
         /// Load custom language file and make cache of shader properties.

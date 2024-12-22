@@ -31,6 +31,7 @@ namespace lilToon
         /// <summary>
         /// Update definition file of version value of lilToon, lil_current_version_value.hlsl.
         /// </summary>
+        [MenuItem("Assets/" + TemplateAllInspector.ShaderName + "/Regenerate include files", false, 9000)]
         private static void UpdateVersionDefFile()
         {
             var dstDirPath = AssetDatabase.GUIDToAssetPath(AssetGuid.ShaderDir);
