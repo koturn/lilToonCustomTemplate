@@ -1,9 +1,8 @@
-// _AudioTexture is declared in lil_common_input.hlsl
-// when LIL_FEATURE_AUDIOLINK is defined.
-// #ifndef LIL_FEATURE_AUDIOLINK
+// _AudioTexture is declared in lil_common_input.hlsl when LIL_FEATURE_AUDIOLINK is defined.
+// #if !defined(LIL_FEATURE_AUDIOLINK) && !defined(AUDIOLINK_CGINC_INCLUDED)
 // TEXTURE2D_FLOAT(_AudioTexture);
 // float4 _AudioTexture_TexelSize;
-// #endif  // LIL_FEATURE_AUDIOLINK
+// #endif  // !defined(LIL_FEATURE_AUDIOLINK) && !defined(AUDIOLINK_CGINC_INCLUDED)
 
 // 0: Rendering normally
 // 1: Rendering in VR handheld camera
