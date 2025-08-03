@@ -87,7 +87,7 @@ namespace lilToon
                     return;
                 }
 
-                using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.Read, bufferSize))
+                using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.Read, bufferSize, FileOptions.SequentialScan))
                 {
                     fs.Write(buffer, 0, length);
                 }
@@ -148,7 +148,7 @@ namespace lilToon
             }
 
             var minBufferSize = Math.Min(count, bufferSize);
-            using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, minBufferSize))
+            using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, minBufferSize, FileOptions.SequentialScan))
             {
                 var buffer = new byte[minBufferSize];
                 int nRead;
