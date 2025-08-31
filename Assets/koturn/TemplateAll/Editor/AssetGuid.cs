@@ -6,7 +6,7 @@ namespace lilToon
     internal static class AssetGuid
     {
         /// <summary>
-        /// GUID of "Assets/XXXXXXXX/Editor/lang_custom.txt".
+        /// GUID of "Assets/XXXXXXXX/Editor/lang_custom.tsv".
         /// </summary>
         public const string LangCustom = "TODO: Replace to GUID of lang_custom.txt";
         /// <summary>
