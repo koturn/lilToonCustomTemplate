@@ -32,3 +32,26 @@
 // float3 _VRChatPhotoCameraPos;
 // World space rotation (quaternion) of photo camera.
 // float4 _VRChatPhotoCameraRot;
+
+// The lower 32 bits of the current UTC time in seconds since the Unix epoch.
+// Note that this should be treated as an unsigned number and will thus not (yet) overflow in 2038.
+// If system time is set to pre-1970 this value is undefined.
+// uint _VRChatTimeUTCUnixSeconds;
+// Synchronized network time in milliseconds.
+// This is the same value as returned by `Networking.GetServerTimeInMilliseconds` in Udon.
+// This is technically a signed value, but may be treated as unsigned.
+// It should only be used for synchronization and offsets, as the absolute value does not represent any meaningful quantity.
+// This value can wrap.
+// uint _VRChatTimeNetworkMs;
+// bit 0-4: Hour component of the current time of day (UTC).
+// bit 5-10: Minute component of the current time of day (UTC).
+// bit 11-16: Second component of the current time of day (UTC & Local, shared).
+// bit 17-21: Hour component of the current time of day (Local).
+// bit 22-27: Minute component of the current time of day (Local).
+// bit 28-31: Reserved.
+// uint _VRChatTimeEncoded1;
+// bit 0-9: Millisecond component of the current time of day (UTC & Local, shared).
+// bit 10: Sign bit of timezone offset. 1 if offset is negative.
+// bit 11-26: Timezone offset from UTC to Local time in seconds.
+// bit 27-31: Reserved.
+// uint _VRChatTimeEncoded2;
