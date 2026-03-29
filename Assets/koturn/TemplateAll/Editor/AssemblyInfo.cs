@@ -5,7 +5,11 @@ using System.Reflection;
 // associated with an assembly.
 [assembly: AssemblyTitle("TemplateAll")]
 [assembly: AssemblyDescription("Material inspector of TemplateAll.")]
+#if DEBUG
+[assembly: AssemblyConfiguration("Debug")]
+#else
 [assembly: AssemblyConfiguration("Release")]
+#endif  // DEBUG
 [assembly: AssemblyCompany("koturn")]
 [assembly: AssemblyProduct("TemplateAll")]
 [assembly: AssemblyCopyright("Copyright (C) 2024 YOURNAME All Rights Reserverd.")]
