@@ -256,7 +256,6 @@ namespace lilToon
 #if UNITY_2022_1_OR_NEWER
                 if (material.parent != null)
                 {
-                    Debug.LogWarningFormat("Ignore {0} because it is Material Variant", AssetDatabase.GetAssetPath(material));
                     continue;
                 }
 #endif  // UNITY_2022_1_OR_NEWER
@@ -350,7 +349,6 @@ namespace lilToon
 #if UNITY_2022_1_OR_NEWER
                 if (material.parent != null)
                 {
-                    Debug.LogWarningFormat("Ignore {0} because it is Material Variant", AssetDatabase.GetAssetPath(material));
                     continue;
                 }
 #endif  // UNITY_2022_1_OR_NEWER
